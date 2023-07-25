@@ -5,7 +5,6 @@ import com.bestswlkh0310.google0auth.domain.UserRole;
 import com.bestswlkh0310.google0auth.domain.entity.User;
 import com.bestswlkh0310.google0auth.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -41,16 +40,17 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         String nickname = oAuth2UserInfo.getName();
         User user;
 
-        UserRole role = UserRole.ROLE_USER;
         Optional<User> optionalUser = userRepository.findByLoginId(loginId);
 
+        UserRole userRole = UserRole.ROLE_USER;
         if(optionalUser.isEmpty()) {
+            if (!isEmailValid(email)) userRole = UserRole.ROLE_GUEST;
             user = User.builder()
                     .loginId(loginId)
                     .nickname(nickname)
                     .provider(provider)
                     .providerId(providerId)
-                    .role(role)
+                    .role(userRole)
                     .email(email)
                     .build();
             if (isEmailValid(email)) userRepository.save(user);

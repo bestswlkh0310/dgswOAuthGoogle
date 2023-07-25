@@ -11,6 +11,6 @@ public class AccessDeniedHandler implements org.springframework.security.web.acc
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
-        response.sendRedirect("/security-login/authorization-fail");
+        response.sendRedirect("/authorization-fail");
     }
 }

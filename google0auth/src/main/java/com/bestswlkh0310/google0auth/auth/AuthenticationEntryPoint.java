@@ -10,6 +10,6 @@ import java.io.IOException;
 public class AuthenticationEntryPoint implements org.springframework.security.web.AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        response.sendRedirect("/security-login/authentication-fail");
+        response.sendRedirect("/authentication-fail");
     }
 }
